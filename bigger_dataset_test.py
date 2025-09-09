@@ -5,15 +5,20 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
 # Load dataset
-df = pd.read_csv('Salary_dataset.csv')
-df = df.drop(columns=['Unnamed: 0'], errors='ignore')
+df = pd.read_csv('Salary Data.csv')
+# Get only Experience,Salary columns
+df = df[['Years of Experience', 'Salary']]
+# drop nans if any
+df = df.dropna()
+#print df info
+print(df.info())
 
 print(df.head())
 
-print('Pearson correlation:', df.corr(method='pearson').loc['YearsExperience', 'Salary'])
+print('Pearson correlation:', df.corr(method='pearson').loc['Years of Experience', 'Salary'])
 
 # Features and target
-X = df[['YearsExperience']]
+X = df[['Years of Experience']]
 y = df['Salary']
 
 # Split (80% train, 20% test)
@@ -49,7 +54,7 @@ plt.scatter(X, y, color="blue", label="Data points")
 plt.axhline(y=mean_salary, color="red", linestyle="--", label="Mean Salary")
 
 # Regression line (sorted X for smooth plotting)
-X_sorted = X.sort_values(by="YearsExperience")   # stays DataFrame
+X_sorted = X.sort_values(by="Years of Experience")   # stays DataFrame
 y_pred_sorted = model.predict(X_sorted)
 
 plt.plot(X_sorted, y_pred_sorted, color="green", linewidth=2, label="Regression Line")
